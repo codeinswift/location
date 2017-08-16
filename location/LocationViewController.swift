@@ -31,10 +31,10 @@ class LocationViewController: UIViewController , CLLocationManagerDelegate {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
-        
+        print("vh")
         }
         
-        locValue = locationManager.location!.coordinate
+        locValue = locationManager.location?.coordinate
         
         print("locations = \(locValue?.latitude) \(locValue?.longitude)")
         
@@ -51,8 +51,12 @@ class LocationViewController: UIViewController , CLLocationManagerDelegate {
         marker.map = mapView
         
        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: Selector("handleLongPress:"))
-      mapView?.addGestureRecognizer(longPressRecognizer)
+      self.mapView?.addGestureRecognizer(longPressRecognizer)
     
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: Selector("handleLongPress:"))
+        longPressGesture.minimumPressDuration = 1.0
+        self.mapView?.addGestureRecognizer(longPressGesture)
+
         
         
     }
@@ -71,7 +75,7 @@ class LocationViewController: UIViewController , CLLocationManagerDelegate {
 
     func handleLongPress(recognizer: UILongPressGestureRecognizer)
     {
-        if (recognizer.state == UIGestureRecognizerState.began)
+        if (recognizer.state == UIGestureRecognizerState.ended)
         {
             print("dcefd")
             let longPressPoint = recognizer.location(in: mapView);
