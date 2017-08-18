@@ -11,7 +11,7 @@ import MapKit
 import GoogleMaps
 import CoreLocation
 
-class LocationViewController: UIViewController , CLLocationManagerDelegate {
+class LocationViewController: UIViewController , CLLocationManagerDelegate,UIGestureRecognizerDelegate {
     
     let locationManager = CLLocationManager()
 
@@ -50,15 +50,30 @@ class LocationViewController: UIViewController , CLLocationManagerDelegate {
         marker.title = "sumit"
         marker.map = mapView
         
-       let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: Selector("handleLongPress:"))
-      self.mapView?.addGestureRecognizer(longPressRecognizer)
+//       let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: Selector("handleLongPress:"))
+//      self.mapView?.addGestureRecognizer(longPressRecognizer)
     
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: Selector("handleLongPress:"))
-        longPressGesture.minimumPressDuration = 1.0
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(_:)))
+        longPressGesture.delegate = self
+        longPressGesture.minimumPressDuration = 1
         self.mapView?.addGestureRecognizer(longPressGesture)
 
         
         
+    }
+    
+    // function which is triggered when handleTap is called
+    func handleLongPress(_ sender: UILongPressGestureRecognizer) {
+            print("dcefd")
+//            let longPressPoint = recognizer.location(in: mapView);
+//            let coordinate = mapView?.projection.coordinate(for: longPressPoint )
+//            //Now you have Coordinate of map add marker on that location
+//            let marker = GMSMarker(position: coordinate!)
+//            marker.opacity = 0.6
+//            //      marker.position = GMSCameraPosition.camera(withTarget: coordinate, zoom: 18)
+//            marker.title = "Current Location"
+//            marker.snippet = ""
+//            marker.map = mapView
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,7 +88,7 @@ class LocationViewController: UIViewController , CLLocationManagerDelegate {
         print(" here locations = \(locValue.latitude) \(locValue.longitude)")
     }
 
-    func handleLongPress(recognizer: UILongPressGestureRecognizer)
+    func handleLongPress(recognizer: UITapGestureRecognizer)
     {
         if (recognizer.state == UIGestureRecognizerState.ended)
         {
@@ -89,5 +104,18 @@ class LocationViewController: UIViewController , CLLocationManagerDelegate {
             marker.map = mapView
         }
     }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if (gestureRecognizer is UILongPressGestureRecognizer) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    
+//    func mapView(mapView: GMSMapView!, didTapAtCoordinate coordinate: CLLocationCoordinate2D) {
+//        println("It works")
+//    }
 
 }

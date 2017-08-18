@@ -12,8 +12,18 @@ import UIKit
 class maplocation
 {
 
-    var locationtitle : String?
-    var latitude : Double?
-    var longitude : Double?
+    var locationtitle : String? = nil
+    var latitude : Double? = nil
+    var longitude : Double? = nil
     
+    
+    
+    init(title : String, newLatitiude : Double, newLongitutde : Double) {
+        
+        self.locationtitle = title
+        self.latitude = newLatitiude
+        self.longitude =  newLongitutde
+
+        
+    }
 }
