@@ -12,7 +12,8 @@ import CoreLocation
 class LocationTableViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
 
     
-    var locations = [maplocation]()
+    @IBOutlet weak var tableViewOutlet: UITableView!
+    let apDelegate = UIApplication.shared.delegate as? AppDelegate
     
     
     @IBAction func addLocation(_ sender: Any) {
@@ -22,23 +23,28 @@ class LocationTableViewController: UIViewController , UITableViewDelegate, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //by default entry for table
-        locations.append(maplocation(title: "bansal home ", newLatitiude: 28.615087, newLongitutde: 77.057606))
         
     }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tableViewOutlet.reloadData()
+    }
 
+    
     // MARK: - Table view data source
 
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return locations.count
+        return (apDelegate?.locationList.count)!
     }
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "mycell", for: indexPath) as! MyCustomCell
 
-        cell.title.text = locations.last?.locationtitle
+        cell.title.text = apDelegate?.locationList.last?.locationtitle
         
         // closure for directly share the location without entering did select row.
         cell.yourobj =
@@ -51,8 +57,6 @@ class LocationTableViewController: UIViewController , UITableViewDelegate, UITab
         }
         return cell
     }
-
-
     
     // MARK: - Table view delegates
     

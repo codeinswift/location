@@ -122,13 +122,13 @@ class LocationViewController: UIViewController , CLLocationManagerDelegate,UIGes
                 let textField = alert.textFields![0]
                 print("Text field: \(textField.text ?? "no title entered")")
                 self.newLocationTitle = textField.text
-                
-                self.newLocation.append(maplocation(title: self.newLocationTitle!, newLatitiude: self.lat ?? 19.017615, newLongitutde: self.lon ?? 72.856164))
-                
-                print(self.newLocation.last?.locationtitle ?? "u")
-                print(self.newLocation.last?.latitude ?? "u")
-                print(self.newLocation.last?.longitude ?? "u")
 
+                //Save location
+                let apDelegate = UIApplication.shared.delegate as? AppDelegate
+                let mapObject = (maplocation(title: self.newLocationTitle!, newLatitiude: self.lat ?? 19.017615, newLongitutde: self.lon ?? 72.856164))
+                apDelegate?.locationList.append(mapObject)
+                
+                
                 // After saving, go back to the location table view
                 _ = self.navigationController?.popViewController(animated: true)
                 
