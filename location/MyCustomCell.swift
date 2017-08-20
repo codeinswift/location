@@ -8,11 +8,12 @@
 
 import UIKit
 
-class MyCustomCellTableViewCell: UITableViewCell {
+class MyCustomCell: UITableViewCell {
     
     
-    
+    var yourobj : (() -> Void)? = nil
 
+    @IBOutlet weak var title: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,4 +25,14 @@ class MyCustomCellTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func btnAction(_ sender: Any) {
+    
+        print("cexed")
+        if let btnAction = self.yourobj
+        {
+            btnAction()
+        }
+    
+    }
+    
 }

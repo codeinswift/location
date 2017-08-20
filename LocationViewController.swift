@@ -11,8 +11,11 @@ import MapKit
 import GoogleMaps
 import CoreLocation
 
+ 
+ 
 class LocationViewController: UIViewController , CLLocationManagerDelegate,UIGestureRecognizerDelegate {
     
+    var defaultMarker : GMSMarker?
     var newLocation = [maplocation]()
     let locationManager = CLLocationManager()
 
@@ -51,10 +54,10 @@ class LocationViewController: UIViewController , CLLocationManagerDelegate,UIGes
       //  let currentlocation = CLLocationCoordinate2DMake((locValue?.latitude)!, (locValue?.longitude)!)
         
      let currentlocation =   CLLocationCoordinate2DMake(19.017615,72.856164)
-        let marker = GMSMarker(position: currentlocation)
+         defaultMarker = GMSMarker(position: currentlocation)
         
-        marker.title = "sumit"
-        marker.map = mapView
+        defaultMarker?.title = "sumit"
+        defaultMarker?.map = mapView
 
         let pressGesture = UITapGestureRecognizer(target: self, action: #selector(self.handlePress(gestureReconizer:)))
         
@@ -69,6 +72,7 @@ class LocationViewController: UIViewController , CLLocationManagerDelegate,UIGes
     // function which is triggered when handleTap is called
     func handlePress(gestureReconizer : UITapGestureRecognizer) {
             print("tap press")
+        self.defaultMarker?.map = nil
         let longPressPoint = gestureReconizer.location(in: mapView)
         let coordinate = mapView?.projection.coordinate(for: longPressPoint )
         
@@ -76,7 +80,6 @@ class LocationViewController: UIViewController , CLLocationManagerDelegate,UIGes
         print(coordinate?.latitude ?? 19.017615, coordinate?.longitude ?? 72.856164)
         
         let marker = GMSMarker(position: coordinate!)
-        marker.opacity = 0.6
         marker.title = "Selected Location"
         marker.snippet = ""
         marker.map = mapView
@@ -118,6 +121,8 @@ class LocationViewController: UIViewController , CLLocationManagerDelegate,UIGes
         
         refreshAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action: UIAlertAction!) in
             print("User Cancel")
+            marker.map = nil
+            
         }))
         
         present(refreshAlert, animated: true, completion: nil)

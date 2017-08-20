@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class LocationTableViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
 
@@ -14,6 +15,10 @@ class LocationTableViewController: UIViewController , UITableViewDelegate, UITab
     var locations = [maplocation]()
     
     
+    @IBAction func addLocation(_ sender: Any) {
+        
+        performSegue(withIdentifier: "add", sender: nil)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
   locations.append(maplocation(title: "bansal home ", newLatitiude: 28.615087, newLongitutde: 77.057606))
@@ -34,11 +39,42 @@ class LocationTableViewController: UIViewController , UITableViewDelegate, UITab
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LocationTableViewCell", for: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "mycell", for: indexPath) as! MyCustomCell
 
-cell.textLabel?.text = locations[0].locationtitle
+        cell.title.text = locations.last?.locationtitle
+        cell.yourobj =
+            {
+                print("wd")
+        
+                let activityVC = UIActivityViewController(activityItems: ["hbhvh"], applicationActivities: nil)
+                activityVC.popoverPresentationController?.sourceView = self.view
+                self.present(activityVC,animated: true,completion: nil)
+
+        
+        }
         return cell
     }
 
 
+    
+    // MARK: - Table view delegates
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        performSegue(withIdentifier: "detail", sender: nil)
+    }
+    
+  
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detail" {
+            let controller = segue.destination as! DetailViewController
+            controller.locValue =  CLLocationCoordinate2DMake(19.017615,72.856164)
+            
+        } else if segue.identifier == "add" {
+            let controller = segue.destination as! LocationViewController
+        }
+    }
+
+    
+    
 }
