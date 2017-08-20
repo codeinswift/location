@@ -13,25 +13,22 @@ import CoreLocation
 
 class DetailViewController: UIViewController {
 
-    var locValue:CLLocationCoordinate2D?
+    var locValue: CLLocationCoordinate2D?
     var mapView : GMSMapView?
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-
-GMSServices.provideAPIKey("AIzaSyAxESpX-APxZFx_EyHbV3-OYLunqn9wr8U")
+        GMSServices.provideAPIKey("AIzaSyAxESpX-APxZFx_EyHbV3-OYLunqn9wr8U")
     
     let camera = GMSCameraPosition.camera(withLatitude: (locValue!.latitude), longitude: (locValue!.longitude), zoom: 18)
-    
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         
-        let marker = GMSMarker(position: locValue!)
-        
-                marker.title = "sumit"
-                marker.map = mapView
+    let marker = GMSMarker(position: locValue!)
+        marker.title = "sumit"
+        marker.map = mapView
         
         view = mapView
-    
     
     }
 
@@ -43,10 +40,6 @@ GMSServices.provideAPIKey("AIzaSyAxESpX-APxZFx_EyHbV3-OYLunqn9wr8U")
         let activityVC = UIActivityViewController(activityItems: ["hbhvh"], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
         self.present(activityVC,animated: true,completion: nil)
-        
-
     }
-    
-    
 
 }

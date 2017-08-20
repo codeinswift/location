@@ -16,18 +16,15 @@ class LocationTableViewController: UIViewController , UITableViewDelegate, UITab
     
     
     @IBAction func addLocation(_ sender: Any) {
-        
+        //forward to location view controller
         performSegue(withIdentifier: "add", sender: nil)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-  locations.append(maplocation(title: "bansal home ", newLatitiude: 28.615087, newLongitutde: 77.057606))
-    
+        //by default entry for table
+        locations.append(maplocation(title: "bansal home ", newLatitiude: 28.615087, newLongitutde: 77.057606))
         
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 
     // MARK: - Table view data source
@@ -42,6 +39,8 @@ class LocationTableViewController: UIViewController , UITableViewDelegate, UITab
         let cell = tableView.dequeueReusableCell(withIdentifier: "mycell", for: indexPath) as! MyCustomCell
 
         cell.title.text = locations.last?.locationtitle
+        
+        // closure for directly share the location without entering did select row.
         cell.yourobj =
             {
                 print("wd")
@@ -49,8 +48,6 @@ class LocationTableViewController: UIViewController , UITableViewDelegate, UITab
                 let activityVC = UIActivityViewController(activityItems: ["hbhvh"], applicationActivities: nil)
                 activityVC.popoverPresentationController?.sourceView = self.view
                 self.present(activityVC,animated: true,completion: nil)
-
-        
         }
         return cell
     }
@@ -65,16 +62,15 @@ class LocationTableViewController: UIViewController , UITableViewDelegate, UITab
     }
     
   
+    // prepare both segues for location controller and detail controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detail" {
             let controller = segue.destination as! DetailViewController
             controller.locValue =  CLLocationCoordinate2DMake(19.017615,72.856164)
             
         } else if segue.identifier == "add" {
-            let controller = segue.destination as! LocationViewController
+            _ = segue.destination as! LocationViewController
         }
     }
-
-    
     
 }
