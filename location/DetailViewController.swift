@@ -15,10 +15,13 @@ class DetailViewController: UIViewController {
 
     var locValue: CLLocationCoordinate2D?
     var mapView : GMSMapView?
-
+    var navtitle : String?
+    
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        
+        self.navigationItem.title = navtitle
+        
         GMSServices.provideAPIKey("AIzaSyAxESpX-APxZFx_EyHbV3-OYLunqn9wr8U")
     
     let camera = GMSCameraPosition.camera(withLatitude: (locValue!.latitude), longitude: (locValue!.longitude), zoom: 18)
@@ -32,6 +35,7 @@ class DetailViewController: UIViewController {
     
     }
 
+    
     
     @IBAction func shareLocation(_ sender: Any) {
         

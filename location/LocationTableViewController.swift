@@ -11,6 +11,8 @@ import CoreLocation
 
 class LocationTableViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
 
+    var passDetailValue : CLLocationCoordinate2D?
+    var passTitle : String?
     
     @IBOutlet weak var tableViewOutlet: UITableView!
     let apDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -44,14 +46,13 @@ class LocationTableViewController: UIViewController , UITableViewDelegate, UITab
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "mycell", for: indexPath) as! MyCustomCell
 
-        cell.title.text = apDelegate?.locationList.last?.locationtitle
+        cell.title.text = apDelegate?.locationList[indexPath.row].locationtitle
         
         // closure for directly share the location without entering did select row.
-        cell.yourobj =
+               cell.yourobj =
             {
-                print("wd")
-        
-                let activityVC = UIActivityViewController(activityItems: ["hbhvh"], applicationActivities: nil)
+
+                let activityVC = UIActivityViewController(activityItems: ["http://maps.google.com/?ll=\(String(describing: self.apDelegate?.locationList[indexPath.row].latitude)),\(String(describing: self.apDelegate?.locationList[indexPath.row].longitude))"], applicationActivities: nil)
                 activityVC.popoverPresentationController?.sourceView = self.view
                 self.present(activityVC,animated: true,completion: nil)
         }
@@ -62,6 +63,9 @@ class LocationTableViewController: UIViewController , UITableViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        self.passTitle = self.apDelegate?.locationList[indexPath.row].locationtitle
+        self.passDetailValue = CLLocationCoordinate2D(latitude: (self.apDelegate?.locationList[indexPath.row].latitude)!,longitude: (self.apDelegate?.locationList[indexPath.row].longitude)!)
+        
         performSegue(withIdentifier: "detail", sender: nil)
     }
     
@@ -70,7 +74,8 @@ class LocationTableViewController: UIViewController , UITableViewDelegate, UITab
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detail" {
             let controller = segue.destination as! DetailViewController
-            controller.locValue =  CLLocationCoordinate2DMake(19.017615,72.856164)
+            controller.locValue =  self.passDetailValue
+            controller.navtitle = passTitle
             
         } else if segue.identifier == "add" {
             _ = segue.destination as! LocationViewController

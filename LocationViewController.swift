@@ -126,8 +126,9 @@ class LocationViewController: UIViewController , CLLocationManagerDelegate,UIGes
                 //Save location
                 let apDelegate = UIApplication.shared.delegate as? AppDelegate
                 let mapObject = (maplocation(title: self.newLocationTitle!, newLatitiude: self.lat ?? 19.017615, newLongitutde: self.lon ?? 72.856164))
+
                 apDelegate?.locationList.append(mapObject)
-                
+                apDelegate?.title =  (apDelegate?.locationList.map { $0.locationtitle })! as! [String]
                 
                 // After saving, go back to the location table view
                 _ = self.navigationController?.popViewController(animated: true)
