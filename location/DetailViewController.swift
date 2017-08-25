@@ -13,6 +13,7 @@ import CoreLocation
 
 class DetailViewController: UIViewController {
 
+    var a, b : Double!
     var locValue: CLLocationCoordinate2D?
     var mapView : GMSMapView?
     var navtitle : String?
@@ -41,9 +42,26 @@ class DetailViewController: UIViewController {
         
         print("wd")
         
-        let activityVC = UIActivityViewController(activityItems: ["hbhvh"], applicationActivities: nil)
-        activityVC.popoverPresentationController?.sourceView = self.view
-        self.present(activityVC,animated: true,completion: nil)
+        if let lat = self.locValue{
+            self.a = self.locValue?.latitude
+            self.b = self.locValue?.longitude
+            
+            print(a,b)
+            
+            var c : String = String(format:"%.5f", a)
+            var d : String = String(format:"%.5f", b)
+            
+            print("http://maps.google.com/?ll=\(c),\(d)")
+            let activityVC = UIActivityViewController(activityItems: ["http://maps.google.com/?ll=\(c),\(d)"], applicationActivities: nil)
+            
+            activityVC.popoverPresentationController?.sourceView = self.view
+            self.present(activityVC,animated: true,completion: nil)
+        }
+        
+        
+       // let activityVC = UIActivityViewController(activityItems: ["http://maps.google.com/?ll=\(String(describing: self.locValue?.latitude)),\(String(describing: self.locValue?.longitude))"], applicationActivities: nil)
+        
+        
     }
 
 }
